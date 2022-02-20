@@ -53,12 +53,13 @@ export function RegisterLoginData() {
     try {
       const data = await AsyncStorage.getItem(dataKey);
 
-      if (data) {
-        const parsedData = JSON.parse(data);
-        const newData = [...parsedData, newLoginData];
-        await AsyncStorage.setItem(dataKey, JSON.stringify(newData));
-      }
+      const parsedData = JSON.parse(data) || [];
 
+      const newData = [...parsedData, newLoginData];
+
+      await AsyncStorage.setItem(dataKey, JSON.stringify(newData));
+
+      navigate('Home');
     } catch (error) {
       Alert.alert('Erro ao salvar dados!');
     }
@@ -89,7 +90,7 @@ export function RegisterLoginData() {
             title="E-mail"
             name="email"
             error={
-              errors.service_name && errors.service_name.message
+              errors.email && errors.email.message
             }
             control={control}
             autoCorrect={false}
@@ -101,7 +102,7 @@ export function RegisterLoginData() {
             title="Senha"
             name="password"
             error={
-              errors.service_name && errors.service_name.message
+              errors.password && errors.password.message
             }
             control={control}
             secureTextEntry
